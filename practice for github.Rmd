@@ -26,3 +26,23 @@ plot(pressure)
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+
+
+
+
+
+
+```{r}
+
+x <- "Hello"
+y <- "Vlad"
+z <- "Arina"
+
+o <- paste(x,y,z)
+o
+
+
+```
+
