@@ -46,7 +46,16 @@ z <- "Arina"
 
 o <- paste(x,y,z)
 o
+```
+
+```{r}
+
+
+yyy <- 13
+zzz <- 5+yyy
+zzz
 
 
 ```
+
 
