@@ -18,7 +18,7 @@ When you click the **Knit** button a document will be generated that includes bo
 ```{r cars}
 summary(cars)
 max(cars)
-min(cars)
+
 ```
 
 ## Including Plots
@@ -43,8 +43,8 @@ Note that the `echo = FALSE` parameter was added to the code chunk to prevent pr
 x <- "Hello"
 y <- "Vlad"
 z <- "Arina"
-
-o <- paste(x,y,z)
+m<- "Maxim"
+o <- paste(x,y,z,m)
 o
 ```
 
