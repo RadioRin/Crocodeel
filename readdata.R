@@ -5,4 +5,5 @@ j = readLines("~/Crocodeal/beers.jsonlines") %>%
   str_c(collapse = ",") %>%  
   (function(str) str_c("[", str, "]")) %>% 
   fromJSON(simplifyDataFrame = T)
-p=unique(j$style)
+p=unique(j$style)#pashka-kakashka
+
