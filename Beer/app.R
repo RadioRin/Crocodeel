@@ -1,3 +1,16 @@
+
+#    http://shiny.rstudio.com/
+#
+
+library(jsonlite)
+library(stringr)
+library(dplyr)
+j = readLines("~/Projects/Crocodeal/Crocodeal/beers.jsonlines") %>% 
+  str_c(collapse = ",") %>%  
+  (function(str) str_c("[", str, "]")) %>% 
+  fromJSON(simplifyDataFrame = T)
+j<-na.omit(j)
+
 ## app.R ##
 library(shinydashboard)
 library(shiny)
@@ -33,7 +46,7 @@ ui <- dashboardPage(
                          title = "Определите оттенок желаемого напитка",
                          width = NULL,
                          checkboxGroupInput("color", NULL,
-                                     c("Светлое", "Тёмное", "Нефильтрованное")),
+                                            c("Светлое", "Тёмное", "Нефильтрованное")),
                          "Если вы желаете, чтобы вам предложили конкретное из трех видов пива, выберите вас интересующее; если для вас цвет не важет - не выбирайте ничего"
                        )
                 )
