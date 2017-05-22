@@ -25,8 +25,10 @@ ui <- dashboardPage(
   ## Sidebar content
   dashboardSidebar(
     sidebarMenu(
+      id = "tabs",
       menuItem("Парамтры напитка", tabName = "dashboard", icon = icon("dashboard")),
-      menuItem("Оценка различных видов пива", tabName = "widgets", icon = icon("th"))
+      menuItem("Оценка различных видов пива", tabName = "widgets", icon = icon("th")),
+      menuItem("Три предложения", tabName = "beer", icon = icon("dashboard"))
     )
   ),
   ## Body content
@@ -48,7 +50,8 @@ ui <- dashboardPage(
                          checkboxGroupInput("color", NULL,
                                             c("Светлое", "Тёмное", "Нефильтрованное")),
                          "Если вы желаете, чтобы вам предложили конкретное из трех видов пива, выберите вас интересующее; если для вас цвет не важет - не выбирайте ничего"
-                       )
+                       ),
+                         actionButton("button", "Завершить")
                 )
               )
       ),
@@ -56,19 +59,53 @@ ui <- dashboardPage(
       
       # Second tab content
       tabItem(tabName = "widgets",
-              h2("Widgets tab content")
+              fluidRow(
+                column(width = 7,
+                       box(
+                         title = "Оцените предложенное пиво",
+                         width = 0.9,
+                         sliderInput("slider2", "НАЗВАНИЕ ПИВА", 1, 5, 3),
+                         "ОПИСАНИЕ ПИВА"
+                       ),
+                       box(
+                         title = "Оцените предложенное пиво",
+                         width = 0.9,
+                         sliderInput("slider3", "НАЗВАНИЕ ПИВА", 1, 5, 3),
+                         "ОПИСАНИЕ ПИВА"
+                       ),
+                       box(
+                         title = "Оцените предложенное пиво",
+                         width = 0.9,
+                         sliderInput("slider4", "НАЗВАНИЕ ПИВА", 1, 5, 3),
+                         "ОПИСАНИЕ ПИВА"
+                       ),
+                       box(
+                         title = "Оцените предложенное пиво",
+                         width = 0.9,
+                         sliderInput("slider5", "НАЗВАНИЕ ПИВА", 1, 5, 3),
+                         "ОПИСАНИЕ ПИВА"
+                       ),
+                       box(
+                         title = "Оцените предложенное пиво",
+                         width = 0.9,
+                         sliderInput("slider6", "НАЗВАНИЕ ПИВА", 1, 5, 3),
+                         "ОПИСАНИЕ ПИВА"
+                       ),
+                       actionButton("button2", "Завершить")
+                )
+              )
       )
     )
   )
 )
 
-server <- function(input, output) {
-  set.seed(122)
-  histdata <- rnorm(500)
-  
-  output$plot1 <- renderPlot({
-    data <- histdata[seq_len(input$slider)]
-    hist(data)
+server <- function(input, output, session) {
+  observeEvent(input$button, {
+    newtab <- switch(input$tabs,
+                     "dashboard" = "widgets",
+                     "widgets" = "dashboard"
+    )
+    updateTabItems(session, "tabs", newtab)
   })
 }
 
