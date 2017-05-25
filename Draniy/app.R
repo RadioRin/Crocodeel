@@ -187,9 +187,10 @@ ui <- dashboardPage(
       #Third tab
       tabItem(tabName = "beer",
               fluidRow(
-                column(width=10, 
-                       title = "А вот и идеальное предложение для Вас...",
-                       box(tableOutput("ДАША ТУТ НАЗВАНИЕ")))
+                box(
+                  title = "А вот и идеальное предложение для Вас...",
+                  tableOutput("recommendedBeer")
+                )
               )
       )
       )
