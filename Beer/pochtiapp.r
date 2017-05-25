@@ -79,7 +79,7 @@ recommend <- function(scores) {
 #j<-na.omit(j)
 
 # залили датасет
-scores = read.csv("../scores.csv", header=TRUE)
+scores = read.csv("~/HELL/Crocodeal/scores.csv", header=TRUE)
 
 scores$X = NULL
 
@@ -117,7 +117,7 @@ ui <- dashboardPage(
       id = "tabs",
       menuItem("Параметры напитка", tabName = "dashboard", icon = icon("dashboard")),
       menuItem("Оценка различных видов пива", tabName = "widgets", icon = icon("th")),
-      menuItem("Три предложения", tabName = "beer", icon = icon("dashboard"))
+      menuItem("Три предложения", tabName = "beer", icon = icon("th"))
     )
   ),
   
@@ -133,7 +133,7 @@ ui <- dashboardPage(
                          width = 0.25,
                          sliderInput("slider", "градусы:", value = c(0.25, 14.75), min = 0.25, max = 14.75),
                          "Как известно, все алкогольные напитки различаются по градусам. Если для вас важна крепость пива, 
-                         вы можете выбрать её двигая слайдер, если же этот параметр для вас не важен - укажите значение равное 1"
+                         вы можете выбрать её двигая слайдеры, если же этот параметр для вас не важен - переместите слайдеры на минимальное и максимальное значение"
                        ),
                       actionButton("button", "Завершить")
                 ),
