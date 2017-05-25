@@ -106,10 +106,9 @@ library(shiny)
 # https://rstudio.github.io/shinydashboard/structure.html
 # http://deanattali.com/blog/building-shiny-apps-tutorial/
 
-
 ui <- dashboardPage(
   
-  dashboardHeader(title = "GradientBoozing"),
+  dashboardHeader(title = "По пивку?"),
   
   ## Sidebar content
   dashboardSidebar(
@@ -136,15 +135,8 @@ ui <- dashboardPage(
                          вы можете выбрать её двигая слайдеры, если же этот параметр для вас не важен - переместите слайдеры на минимальное и максимальное значение"
                        ),
                       actionButton("button", "Завершить")
-                ),
-                column(width=7, 
-                       box(
-                      title = "Переменные",
-                      tableOutput("variablesValues"))),
-                column(width=10, 
-                       title = "Отфильтрованное",
-                       box(tableOutput("scores")))
               )
+            )
       ),
       
       
@@ -188,21 +180,25 @@ ui <- dashboardPage(
                          sliderInput("slider7", "American Strong Ale", 1, 5, 3),
                          "ОПИСАНИЕ ПИВА"
                        ),
-                       box(
-                         title = "Ваши оценки",
-                         tableOutput("userScores")
-                       ),
-                       box(
-                         title = "Последние 3 элемента в датасете",
-                         tableOutput("last3elements")
-                       ),
                        actionButton("button2", "Завершить")
                 )
               )
+      ),
+      #Third tab
+      tabItem(tabName = "beer",
+              fluidRow(
+                box(
+                  title = "А вот и идеальное предложение для Вас...",
+                  tableOutput("recommendedBeer")
+                )
+              )
       )
-    )
+   )
   )
 )
+
+  
+    
 
 server <- function(input, output, session) {
   
@@ -256,7 +252,11 @@ server <- function(input, output, session) {
   
   observeEvent(
     input$button2, {
-      message("Button Two clicked, yeah! ", input$button2)
+      newtab <- switch(input$tabs,
+                       "widgets" = "beer",
+                       "beer" = "widgets"
+      )
+      updateTabItems(session, "tabs", newtab)
       # updateTabItems(session, "tabs", input$tabs)
       oldScores <- scoresValues()
         message("len of old ", nrow(oldScores))
@@ -303,13 +303,12 @@ server <- function(input, output, session) {
   #   userScores()
   # })
   
-  output$last3elements <- renderTable({
-    message("Setting last3elements")
-    df <- scoresValues()
-    n <- nrow(df)
-    df[(n - 2):n, ]
-  })
-  
+  # output$last3elements <- renderTable({
+  #   message("Setting last3elements")
+  #   df <- scoresValues()
+  #   n <- nrow(df)
+  #   df[(n - 2):n, ]
+  # })
   observeEvent(
     input$button, {
       newtab <- switch(input$tabs, "dashboard" = "widgets", "widgets" = "dashboard")
