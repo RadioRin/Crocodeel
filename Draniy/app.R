@@ -1,10 +1,5 @@
 #    http://shiny.rstudio.com/
 
-#library(jsonlite)
-#library(stringr)
-#library(dplyr)
-
-
 library(dplyr)
 library(recommenderlab)
 library(reshape2)
@@ -56,9 +51,6 @@ recommend <- function(scores) {
   recc_predicted <- predict(object = recc_model, newdata = recc_data_test, n = 6)
   # recc_predicted
   
-  
-  
-  
   recc_user_1 <- recc_predicted@items[[2]]
   # recc_user_1
   
@@ -97,6 +89,13 @@ scores$style = as.factor(scores$style)
 updatedScores <- scores
 
 print(scores[1,])
+
+chosenBeersList <- c("Belgian Dark Ale",
+                     "American Amber / Red Ale",
+                     "American Brown Ale",  
+                     "American Double / Imperial Stout", 
+                     "American Porter",
+                     "American Strong Ale")
 
 ## app.R ##
 library(shinydashboard)
@@ -147,39 +146,51 @@ ui <- dashboardPage(
                        box(
                          title = "Оцените предложенное пиво",
                          width = 0.9,
-                         sliderInput("slider2", "Belgian Dark Ale", 1, 5, 3),
+                         sliderInput("slider2", chosenBeersList[1], 1, 5, 3),
                          "ОПИСАНИЕ ПИВА"
                        ),
                        box(
                          title = "Оцените предложенное пиво",
                          width = 0.9,
-                         sliderInput("slider3", "American Amber / Red Ale", 1, 5, 3),
+                         sliderInput("slider3", chosenBeersList[2], 1, 5, 3),
                          "ОПИСАНИЕ ПИВА"
                        ),
                        box(
                          title = "Оцените предложенное пиво",
                          width = 0.9,
-                         sliderInput("slider4", "American Brown Ale", 1, 5, 3),
+                         sliderInput("slider4", chosenBeersList[3], 1, 5, 3),
                          "ОПИСАНИЕ ПИВА"
                        ),
                        box(
                          title = "Оцените предложенное пиво",
                          width = 0.9,
-                         sliderInput("slider5", "American Double / Imperial Stout", 1, 5, 3),
+                         sliderInput("slider5", chosenBeersList[4], 1, 5, 3),
                          "ОПИСАНИЕ ПИВА"
                        ),
                        box(
                          title = "Оцените предложенное пиво",
                          width = 0.9,
-                         sliderInput("slider6", "American Porter", 1, 5, 3),
+                         sliderInput("slider6", chosenBeersList[5], 1, 5, 3),
                          "ОПИСАНИЕ ПИВА"
                        ),
                        box(
                          title = "Оцените предложенное пиво",
                          width = 0.9,
-                         sliderInput("slider7", "American Strong Ale", 1, 5, 3),
+                         sliderInput("slider7", chosenBeersList[6], 1, 5, 3),
                          "ОПИСАНИЕ ПИВА"
                        ),
+                       # box(
+                       #   title = "Ваши оценки",
+                       #   tableOutput("userScores")
+                       # )  ,
+                       # box(
+                       #   title = "Рекомендованные виды пива",
+                       #   tableOutput("recommendedBeer")
+                       # )                       ,
+                       # box(
+                       #   title = "Последние 3 элемента в датасете",
+                       #   tableOutput("last3elements")
+                       # ),
                        actionButton("button2", "Завершить")
                 )
               )
@@ -214,77 +225,80 @@ server <- function(input, output, session) {
     scoresValues()
   })
   
+  bestRecommendations <- reactive({
+    
+    print("Running beer recommendations...")
+    
+    oldScores <- scoresValues()
+    
+    message("Len of old ", nrow(oldScores))
+    message("Head of old ", oldScores[1,])
+    
+    # формируем датафрейм из пользовательских оценок по разному пиву со страницы
+    beersRatings <- 
+      data.frame(
+        c(userId, userId, userId),
+        chosenBeersList,
+        c(input$slider2[1], input$slider3[1], input$slider4[1]),
+        c(0.0, 0.0, 0.0),
+        fix.empty.names = FALSE
+      )
+    
+    colnames(beersRatings) <- colnames(oldScores)
+    updatedScores <- rbind(oldScores, beersRatings)
+    # n <- nrow(updatedScores)
+    recommended <- recommend(updatedScores)
+    print(recommended)
+    recommended
+  })
   
-  # Reactive expression to compose a data frame containing interesting values
-  # vValues <- reactive({
-  #   
-  #   # Compose data frame
-  #   df = data.frame(c("Button",  "Button2", "SliderFrom", "SliderTo"), 
-  #             c(input$button, input$button2, input$slider[1], input$slider[2]),
-  #             fix.empty.names = FALSE)
-  #   df
-  # })
-  # # Show the values using an HTML table
-  # output$variablesValues <- renderTable({
-  #   vValues()
-  # })
+  output$recommendedBeer <-  renderTable({
+    bestRecommendations()
+  })
   
-  # Reactive expression to compose a data frame containing filtered values
-  # updatedScoreValues <- reactive({
-  #   print("reacting!")
-  #   oldScores <- scoresValues()
-  #   message("len of old ", nrow(oldScores))
-  #   message("head of old ", oldScores[2,])
-  #   
-  #   beersRatings <- data.frame(
-  #     c(),
-  #     c(),
-  #     c(),
-  #     c(),
-  #     c()
-  #   )
-  #   
-  #   res <- rbind(oldScores, beersRatings)
-  #   # message("tail of res ", res[-2, ])
-  #   # message(res)
-  #   res
-  # })
   
   observeEvent(
     input$button2, {
-      newtab <- switch(input$tabs,
-                       "widgets" = "beer",
-                       "beer" = "widgets"
-      )
+      
+      print(bestRecommendations())      
+      message(bestRecommendations())
+      
+      newtab <- switch(input$tabs, "beer" = "widgets", "widgets" = "beer")
       updateTabItems(session, "tabs", newtab)
-      # updateTabItems(session, "tabs", input$tabs)
-      oldScores <- scoresValues()
-      message("len of old ", nrow(oldScores))
-      message("head of old ", oldScores[2,])
       
-      beersRatings <- data.frame(
-        #                                                        member_url                    style overall  avg2
-        #  https://www.beeradvocate.com/community/members/tillmac62.756934/ American Amber / Red Ale       4 4.035
-        c(userId,userId,userId,userId,userId,userId),
-        c("Belgian Dark Ale","American Amber / Red Ale","American Brown Ale",  
-          "American Double / Imperial Stout",  "American Porter", "American Strong Ale"),
-        c(input$slider2[1], input$slider3[1], input$slider4[1], 
-          input$slider5[1], input$slider6[1], input$slider7[1]),
-        c(0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
-        fix.empty.names = FALSE
-      )
-      
-      colnames(beersRatings) <- colnames(oldScores)
-      
-      print(beersRatings)
-      
-      updatedScores <- rbind(oldScores, beersRatings)
-      
-      n <- nrow(updatedScores)
-      print(updatedScores[(n-10):n, ])
-      
-      recommended <- recommend(updatedScores)
-      print(recommended)
+      # newtab <- switch(input$tabs,
+      #                  "widgets" = "beer",
+      #                  "beer" = "widgets"
+      # )
+      # updateTabItems(session, "tabs", newtab)
+      # # updateTabItems(session, "tabs", input$tabs)
+      # oldScores <- scoresValues()
+      # message("len of old ", nrow(oldScores))
+      # message("head of old ", oldScores[2,])
+      # 
+      # beersRatings <- data.frame(
+      #   #                                                        member_url                    style overall  avg2
+      #   #  https://www.beeradvocate.com/community/members/tillmac62.756934/ American Amber / Red Ale       4 4.035
+      #   c(userId,userId,userId,userId,userId,userId),
+      #   c("Belgian Dark Ale","American Amber / Red Ale","American Brown Ale",  
+      #     "American Double / Imperial Stout",  "American Porter", "American Strong Ale"),
+      #   c(input$slider2[1], input$slider3[1], input$slider4[1], 
+      #     input$slider5[1], input$slider6[1], input$slider7[1]),
+      #   c(0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
+      #   fix.empty.names = FALSE
+      # )
+      # 
+      # colnames(beersRatings) <- colnames(oldScores)
+      # 
+      # print(beersRatings)
+      # 
+      # updatedScores <- rbind(oldScores, beersRatings)
+      # 
+      # n <- nrow(updatedScores)
+      # print(updatedScores[(n-10):n, ])
+      # 
+      # recommended <- recommend(updatedScores)
+      # print(recommended)
     }
   )
   
@@ -326,3 +340,4 @@ server <- function(input, output, session) {
 
 
 shinyApp(ui, server)
+
