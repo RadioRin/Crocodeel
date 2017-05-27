@@ -1,5 +1,10 @@
 #    http://shiny.rstudio.com/
 
+#library(jsonlite)
+#library(stringr)
+#library(dplyr)
+
+
 library(dplyr)
 library(recommenderlab)
 library(reshape2)
@@ -48,7 +53,7 @@ recommend <- function(scores) {
   recc_model <- Recommender(data = recc_data_train, method = "IBCF",  parameter = list(k = 30))
   # recc_model
   
-  recc_predicted <- predict(object = recc_model, newdata = recc_data_test, n = 6)
+  recc_predicted <- predict(object = recc_model, newdata = recc_data_test, n = 3)
   # recc_predicted
   
   recc_user_1 <- recc_predicted@items[[2]]
@@ -71,7 +76,7 @@ recommend <- function(scores) {
 #j<-na.omit(j)
 
 # залили датасет
-scores = read.csv("~/HELL/Crocodeal/scores.csv", header=TRUE)
+scores = read.csv("~/HELL/Crocodeal/Beer/scores.csv", header=TRUE)
 
 scores$X = NULL
 
@@ -107,7 +112,7 @@ library(shiny)
 
 ui <- dashboardPage(
   
-  dashboardHeader(title = "По пивку?"),
+  dashboardHeader(title = "Думаешь, ты пробовал все? Тогда тебе к нам..."),
   
   ## Sidebar content
   dashboardSidebar(
@@ -199,7 +204,7 @@ ui <- dashboardPage(
       tabItem(tabName = "beer",
               fluidRow(
                 box(
-                  title = "А вот и идеальное предложение для Вас...",
+                  title = "Все еще уверен, что мы не сможем тебя удивить? Тогда вот идеальное предложение для тебя...",
                   tableOutput("recommendedBeer")
                 )
               )
@@ -234,13 +239,14 @@ server <- function(input, output, session) {
     message("Len of old ", nrow(oldScores))
     message("Head of old ", oldScores[1,])
     
-    # формируем датафрейм из пользовательских оценок по разному пиву со страницы
+    # формируем датафрейм из пользовательских оценок разному пиву со страницы
     beersRatings <- 
       data.frame(
-        c(userId, userId, userId),
+        c(userId, userId, userId, userId, userId, userId),
         chosenBeersList,
-        c(input$slider2[1], input$slider3[1], input$slider4[1]),
-        c(0.0, 0.0, 0.0),
+        c(input$slider2[1], input$slider3[1], input$slider4[1], 
+          input$slider5[1], input$slider6[1], input$slider7[1]),
+        c(0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
         fix.empty.names = FALSE
       )
     
@@ -340,4 +346,3 @@ server <- function(input, output, session) {
 
 
 shinyApp(ui, server)
-

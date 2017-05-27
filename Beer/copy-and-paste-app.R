@@ -53,7 +53,7 @@ recommend <- function(scores) {
   recc_model <- Recommender(data = recc_data_train, method = "IBCF",  parameter = list(k = 30))
   # recc_model
   
-  recc_predicted <- predict(object = recc_model, newdata = recc_data_test, n = 4)
+  recc_predicted <- predict(object = recc_model, newdata = recc_data_test, n = 3)
   # recc_predicted
   
   recc_user_1 <- recc_predicted@items[[2]]
@@ -76,7 +76,7 @@ recommend <- function(scores) {
 #j<-na.omit(j)
 
 # залили датасет
-scores = read.csv("~/HELL/Crocodeal/scores.csv", header=TRUE)
+scores = read.csv("~/HELL/Crocodeal/Beer/scores.csv", header=TRUE)
 
 scores$X = NULL
 
@@ -112,7 +112,7 @@ library(shiny)
 
 ui <- dashboardPage(
   
-  dashboardHeader(title = "По пивку?"),
+  dashboardHeader(title = "Думаешь, ты пробовал все? Тогда тебе к нам..."),
   
   ## Sidebar content
   dashboardSidebar(
@@ -204,7 +204,7 @@ ui <- dashboardPage(
       tabItem(tabName = "beer",
               fluidRow(
                 box(
-                  title = "А вот и идеальное предложение для Вас...",
+                  title = "Все еще уверен, что мы не сможем тебя удивить? Тогда вот идеальное предложение для тебя...",
                   tableOutput("recommendedBeer")
                 )
               )
