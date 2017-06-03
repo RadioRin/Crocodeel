@@ -7,6 +7,7 @@ descbeer<-beer_desc_ful[,1:2]
 
 beer_reviews <- read_csv("~/Projects/Crocodeal/Crocodeal/beer_reviews.csv")
 berrev<-beer_reviews[,c(4,7,8,11,12,13)]
+berrev<-na.omit(berrev)
 colnames(descbeer)<- c("beer_style", "desc")
 brv2<-inner_join(berrev, descbeer, by = "beer_style")
 desc<-as.data.frame(unique(berrev$beer_style))
