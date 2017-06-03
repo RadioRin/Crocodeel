@@ -71,7 +71,7 @@ recommend <- function(scores) {
 #j<-na.omit(j)
 
 # залили датасет
-scores = read.csv("~/HELL/Crocodeal/scores.csv", header=TRUE)
+scores = read.csv("~/Projects/Crocodeal/Crocodeal/scores.csv", header=TRUE)
 
 scores$X = NULL
 

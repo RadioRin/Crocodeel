@@ -1,0 +1,104 @@
+"","beer_style","description"
+"1","Hefeweizen",NA
+"2","English Strong Ale",NA
+"3","Foreign / Export Stout",NA
+"4","German Pilsener",NA
+"5","American Double / Imperial IPA",NA
+"6","Herbed / Spiced Beer",NA
+"7","Light Lager",NA
+"8","Oatmeal Stout","Oatmeal Stouts are a Stout style with oats added to the brewing process. Normally, there is a maximum of 30% oats added to the grains. The color should be the same as other Stout styles, usually very dark brown or even black. The aroma should have a rich roasted malt character, with notes of caramel and chocolate. There should also be notable coffee or roasted barley smells, usually apparent as chocolate or nut smells. The taste should be smooth and full, with coffee-like bitterness apparent but not overwhelming. Roasted notes of malts and barley should be apparent also. Hop aroma and taste should be very low. Feel should be medium to full bodied. ABV ranges from 3.8% to 6% and sometimes higher. IBUs range from 20 to 40."
+"9","American Pale Lager",NA
+"10","Rauchbier","Rauchbier is a German smoked beer. The color should be dark copper to dark brown. The aroma should have a combination of smoke and malts. The smoked aroma should be very notable also. The taste follows the aroma. There should be a blend of smoke and malts, with the smoke flavors obvious. Smoked cheeses are similar in character. There should also be a slight malt sweetness apparent. Hop bitterness should be minimally apparent in both aroma and taste. The feel should be medium bodied. ABV ranged from 4.8% to 6%. IBUs range from 20 to 30."
+"11","American Pale Ale (APA)",NA
+"12","American Porter","American Porters are distinguished from English Porters by having a more notable flavor and aroma. In particular, the hop presence should be much more notable in both aroma and flavor. The ABV range should be from 5% to 7%. The IBUs should range from 25-50."
+"13","Belgian Strong Dark Ale",NA
+"14","American IPA","The American India Pale Ale (IPA) style has an extremely notable hop presence in both aroma and taste. The hop character is always front and center and notable as a floral or citrus character that is quite strong. The color should be light gold to copper and the the feel should be medium with moderate carbonation. The malt character of the style is generally subordinated to the hops. ABV is usually in the range of 5% to 8% and IBUs range from 50 to 70 or higher."
+"15","American Stout","The American Stout is highlighted by a dark brown to black color. Head retention should be notable also. Aroma has pronounced tones of caramel, chocolate, coffee and a very notable roasted smell. Taste has notable coffee and roasted bitterness, with low to medium hop tones. Any hop tones are usually highlighted by subdued citrus notes. Feel should be medium to full bodied. ABV can range from 5% to 9% and higher. IBUs should range from 30 to 60."
+"16","Russian Imperial Stout",NA
+"17","American Amber / Red Ale",NA
+"18","American Strong Ale","""The term American Strong Ale is usually used as a """"catch-all"""" category for any dark and strong beers that defy a traditional beer style description. This """"style"""" shares characteristics with several beers style, including barleywines, old ales and even Double IPAs. Most examples of the style are dark in color, from dark amber to almost black. Hop presence in aroma and flavor can vary widely within the style. One notable factor of most examples of the style is a relatively high ABV, usually 7% or higher."""
+"19","Märzen / Oktoberfest",NA
+"20","American Adjunct Lager",NA
+"21","American Blonde Ale",NA
+"22","Euro Pale Lager",NA
+"23","English Brown Ale",NA
+"24","Scotch Ale / Wee Heavy",NA
+"25","Fruit / Vegetable Beer",NA
+"26","American Double / Imperial Stout",NA
+"27","Belgian Pale Ale","Belgian Pale Ales are light to medium ales that have a mild aroma and low hops bitterness. The color is usually light golden to amber in color, occasionally even a darker amber. The aroma has minimal hops notes, with a mild malt and fruity sweetness. There may even be a mild spicy tone in the aroma. The taste also has minimal hops bitterness. The mild malt sweetness is also notable in the flavor, along with a minor caramel or toasted grain taste. Feel should be on the low to medium side. ABV ranges from 4% to 6%. IBUs are generally low and range from 20 to 30."
+"28","English Bitter",NA
+"29","English Porter","The English Porter has a history dating back to 1721, when it was first mentioned. The color of the English Porter should range from light brown to dark brown, almost black. The aroma should have a strong malt presence, with notes of chocolate, coffee, and roasted grains. The taste should focus on the malts, with roasted malts, toffee, caramel and nutty tones present. Other flavors may include coffee, bready yeast and toasted rye bread. Hop presence in both aroma and flavor should be minimal. The feel should be medium bodied. ABV ranges from 4% to 5.4%. IBUs should range from 18 to 35."
+"30","Irish Dry Stout",NA
+"31","American Barleywine","American Barleywines are a complex style that range from amber to dark copper in color. The mouthfeel is generally full and there is a notable malt sweetness, usually present as a caramel or toffee taste and smell. There is also a notable alcohol presence. Hop bitterness in the aroma and taste is medium to very high. ABV can range widely from 8% to 12% or higher."
+"32","Belgian Strong Pale Ale",NA
+"33","Doppelbock","""Doppelbock (translates to """"double bock"""" in German) is a Bavarian beer style that was yet another German style to find its origins by being brewed by monks in centuries past. Along with bocks in general, it was considered """"liquid bread"""" by the monks in times of fasting. The color should range from dark copper to dark brown, but can sometimes be somewhat pale. The aroma should have have a very strong malt sweetness present, with toasted grains notable. Alcohol aroma may also be present. Finally, there may also be hints of chocolate and dark fruits. The taste should also center on the malts, with toasted bread notes and a somewhat notable alcohol taste. There should also be a semi-sweet or outright sweet malt taste, and very little or no hop flavors. The feel should be full bodied. ABV ranges from 6% to 10%. IBUs should be fairly low between 17 to 27."""
+"34","Maibock / Helles Bock",NA
+"35","Pumpkin Ale",NA
+"36","Dortmunder / Export Lager",NA
+"37","Euro Strong Lager",NA
+"38","Euro Dark Lager",NA
+"39","Low Alcohol Beer",NA
+"40","Weizenbock","Weizenbock is a strong German wheat beer. It is similar to a Hefeweizen, although darker and higher in malt flavor and alcohol. To be considered in this style, German law requires at least 50% wheat malt to be used in the brewing process. This style uses ale yeast, and gets a slightly spicy tone from the yeast. Color should be medium red-brown or darker, with a cloudy appearance. Aroma and taste should be highlighted by both wheat sweetness and malt characteristics such as caramel. ABV is likewise higher than pale German wheat style, usually 6% or higher."
+"41","Extra Special / Strong Bitter (ESB)",NA
+"42","Bock",NA
+"43","English India Pale Ale (IPA)",NA
+"44","Altbier","""""""Alt"""" translates to """"old"""" in German. So """"Altbier"""" literally translated would be """"old beer"""". Despite the connotations of a beer that is past its prime, the name actually derives from the continuing deference to Rhineland brewing traditions. Altbier is a top-fermented ale that is copper in color. It is unique because it undergoes a period of cold-conditioning or lagering. Due to that fact, this style is a hybrid of both ales and lagers. Despite the usually notable hop bitterness, the lagering gives a well-rounded beer with a clean flavor dominated by the malts. Most Altbiers are around 4% to 5% ABV. The normal IBU range is 25 to 52, with most at the lower end of that range."""
+"45","Kölsch",NA
+"46","Munich Dunkel Lager",NA
+"47","Rye Beer",NA
+"48","American Pale Wheat Ale",NA
+"49","Milk / Sweet Stout",NA
+"50","Schwarzbier","""Schwarzbier is a German style of """"black beer"""" that uses lager yeast. The aroma and taste usually include subtle hints chocolate or coffee. The feel should be somewhat thin. ABV should be in the lower range around 3% to 6%"""
+"51","Vienna Lager","Vienna Lager is a lager style that was originated in Vienna, Austria. The color should be medium red-brown to copper. There should be an obvious malt sweetness in both aroma and taste. Hop presence should be low. Mouthfeel should be clean and crisp. ABV should also be somewhat low."
+"52","American Amber / Red Lager",NA
+"53","Scottish Ale",NA
+"54","Witbier","""Witbier (literally, """"white beer"""" in Belgium) is one Belgian version of a wheat beer. It is also sometimes called a """"Witte"""". The color should be straw yellow to gold, with a notable cloudy haze. A true historical rendering of the style will not use hops, but instead a mixture of spices, herbs and orange. However, current versions of the style generally include hops as a portion of the mixture (or """"gruit""""). Despite that fact, the hop presence in both aroma and flavor should be minimal. However, there should be a notable citrus or slight acidity present. ABV should be somewhat low."""
+"55","American Black Ale",NA
+"56","Saison / Farmhouse Ale",NA
+"57","English Barleywine","The English Barleywine is generally a less bitter version of the American Barleywine. Hop notes are subdued because English hop varieties are usually (but not always) used in the style. Like the American Barleywine, this basic barleywine style is intended to be appreciated for the complexity of the flavors. The high alcohol content generally means that it can be aged for long periods, sometimes many years.The color should range from medium copper to Dark brown to black in some examples. The aroma should be very strong and dominated by the high malty sweetness. There should also be notes of fruits, toasted grains and caramel. Alcohol notes should be strong. Hop notes should be very subdued or nonexistent. The taste should also be dominated by the malts and alcohol, similar to the aroma. The feel should be very full bodied. ABV generally ranges from 8% to 12% and sometimes considerably higher. IBUs should range from 40 to 60."
+"58","English Dark Mild Ale",NA
+"59","California Common / Steam Beer",NA
+"60","Czech Pilsener",NA
+"61","English Pale Ale",NA
+"62","Belgian IPA","""The Belgian IPA combines the hoppy character of the American IPA style with the spicy notes or fruity esters of many Belgian styles. The base style that is usually used is a Tripel. Therefore, the color tends to be lighter colored and higher in alcohol. Since this is essentially a """"Euro IPA"""", brewers tend to use European hop varieties in the brewing process. This gives it a somewhat more subdued hop profile when compared to American IPAs."""
+"63","Tripel",NA
+"64","Flanders Oud Bruin",NA
+"65","American Brown Ale","American Brown Ales are malty, slightly sweet and full of flavor. Aroma usually has caramel malt or nutty characteristics. Hop notes should be muted, although some examples have a mild citrus character due to the hop varieties used. Color should be brown to reddish-brown. ABV is usually in the 4% to 6.4% range. IBU range should be 24 to 45."
+"66","Winter Warmer",NA
+"67","Smoked Beer",NA
+"68","Dubbel",NA
+"69","Flanders Red Ale","The Flanders Red Ale is a Belgian-style sour ale similar to the Flanders Brown Ale (or Oud Bruin). The style is highlighted by a strong sour aroma and taste and minimal hop presence. Much like the Flanders Brown Ale, this style also gets a long period of aging of a year or more. Aging for this style is often done in oak barrels, lending a further acid character to the style. Quite often, an aged batch is blended with a younger batch to balance the sour notes. The color should be dark red to brown, with a notable clarity. The aroma has strong fruit smells, like citrus, sour cherries and dark fruits. There should also be notes of vanilla from the oak aging, and sometimes has chocolate and malt notes as well. The sourness of the style should be apparent in the aroma. The taste follows the smell closely, with strong fruit flavors dominating along with the sourness and acidity. The feel should be medium bodied, with the acidity standing out. ABV should range from 4.6% to 6.5%. IBUs should be low, ranging from 10 to 25."
+"70","Dunkelweizen",NA
+"71","Roggenbier",NA
+"72","Keller Bier / Zwickel Bier",NA
+"73","Belgian Dark Ale",NA
+"74","Bière de Garde",NA
+"75","Japanese Rice Lager",NA
+"76","Black & Tan",NA
+"77","Irish Red Ale","Irish Red Ales get their distinctive color from the use of a small amount of roasted barley. They range in color from light red-amber to light red-brown. The aroma should have a notable caramel sweetness, with virtually no hop presence. The taste should likewise have a caramel malt sweetness, with little or no hop bitterness. The feel should have a medium body. ABV ranges from 4% to 4.5%. IBUs range from 20 to 30."
+"78","Chile Beer",NA
+"79","English Stout",NA
+"80","Cream Ale","Cream Ales are mild and pale ales that use warm fermentation and cold lagering. The color should be light, ranging from a pale yellow to golden. The aroma should be very muted and hop notes are often absent. The taste should be similarly muted, with a crisp taste but a minimal hop and malt taste. The feel is light and clean, with a crisp finish. ABV ranges from 4% to 5.6%. IBUs are generally low and range from 10 to 20."
+"81","American Wild Ale",NA
+"82","American Double / Imperial Pilsner",NA
+"83","Scottish Gruit / Ancient Herbed Ale",NA
+"84","Wheatwine","A Wheat Wine (also called an American Style Wheat Wine) is a stronger wheat beer that is brewed with 50% or more wheat malt. The color ranges from gold to dark amber. The style is full bodied and has a high malt sweetness. Hop presence should be medium to low in both aroma and flavor. Fruit tones should be noted in both aroma and taste. Other style notes include bready, wheat, honey or caramel notes. ABV should be in the range of 8% to 12%. IBUs are medium at 40-80, usually at the lower end of the range."
+"85","American Dark Wheat Ale",NA
+"86","American Malt Liquor",NA
+"87","Baltic Porter","The Baltic Porter is brewed with lager yeast, which gives a smooth cold-fermented beer with few of the ale characters. Color should be black to very dark red-brown. Aroma has caramel sugars, chocolate, coffee and roasted malts. Also, a slight smokiness may also be present. Taste should not have a strong bitterness from either hops or roasted malts. Alcohol is likely notable in the taste. A light cocoa powder, fruity and possibly a slight smoky flavor may also be notable. Hops should be minimal all around, in both aroma and taste. Feel should be medium to full, with a slight sweetness in the lingering aftertaste. ABV should range from 7% to 9% or higher. IBUs should range from 30 to 40."
+"88","Munich Helles Lager",NA
+"89","Kristalweizen",NA
+"90","English Pale Mild Ale",NA
+"91","Lambic - Fruit",NA
+"92","Old Ale","An Old Ale (or Stock Ale) is a strong, dark and malty English style of beer. The color should range from dark amber to dark brown. The aroma should have minimal hop notes, with strong malt or caramel notes apparent. Strong alcohol aromas are also usually obvious. Fruity esters and other dark fruit aromas may also be very notable. A long period of aging also contributes to the character of the sharpness of the flavors. The taste is generally complex, with very minimal hop bitterness. There should be a notable bite from the alcohol though, along with notes of vanilla, dark fruits, caramel, and sherry. If the ale was aged in a barrel, tones from the barrel will be very apparent with wood, vanilla, bourbon or other flavors apparent. The feel should be full bodied. ABV should range from 6% to 9%. IBUs are medium and range from 30 to 65."
+"93","Quadrupel (Quad)",NA
+"94","Braggot",NA
+"95","Lambic - Unblended",NA
+"96","Eisbock","Eisbock was originally discovered in Kulmbach, Bavaria by removing ice from partially frozen barrels of beer. This is a traditional style that is typically made by freeze distilling a doppelbock and removing the resulting ice. This provides a concentrated flavor and boosts the alcohol (upwards of 12% to 14%).The color should be deep copper to dark brown. The aroma should be dominated by the malt characteristics, with malt sweetness very evident. Other smells like dark fruits, caramel and chocolate can be present. Hop aroma should be nonexistent. The taste should follow the aroma, with malty sweetness dominant. Other flavors like dark fruits, caramel, a hint of chocolate and toasted notes also can be evident. Also, alcohol should be very obvious in the taste. The feel should be full bodied. ABV should range from 8% to 14%. IBUs should be somewhat low in the range of 26 to 33."
+"97","Berliner Weissbier",NA
+"98","Kvass",NA
+"99","Faro",NA
+"100","Gueuze","Gueuze is a type of Belgian Lambic beer that is made by blending a younger lambic (1 year old) with an older lambic (2-3 years old). This is then bottled for a secondary fermentation in the bottle. Most examples of the Gueuze style can handle long periods of aging, with the Cantillon Lou Pepe label noting that it can be aged for up to 20 years. Kriek is a closely related lambic that uses sour cherries before bottling.The color should be pale yellow, and somewhat cloudy. The aroma should have a very strong sour presence, with notes of green apples, cider, citrus rind and a notable acidity. Some brewers add sugar to the fermentation to dull the sour edge of the style. The taste should follow the aroma, with sourness being the primary flavor. There should also be strong notes of citrus, acidity and possibly a very slight sweet aftertaste. Hop bitterness should not be noticed at all. The feel should be light, with very high carbonation. ABV should be from 5% to 6%. IBUs should be very low at 11 to 23."
+"101","Gose","""Gose is a German wheat beer that was first brewed in the 1700s in the town of Goslar, Germany. It is also known as a traditional style in Leipzig, Germany. It is a top-fermented, """"pre-lager"""" beer style. The beers typically have a moderate alcohol content of 4 to 5% ABV. Dominant flavors in Gose include a lemon tartness, a herbal characteristic, and a strong saltiness (the result of either local water sources or added salt). Gose beers typically do not have prominent hop bitterness, flavors, or aroma."""
+"102","Happoshu",NA
+"103","Ameri",NA
