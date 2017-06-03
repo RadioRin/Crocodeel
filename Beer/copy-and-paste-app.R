@@ -76,10 +76,7 @@ recommend <- function(scores) {
 #j<-na.omit(j)
 
 # залили датасет
-
-#не забудте создать файл my_read_scores.r соделжащий строчку чтения данных с вашим путем
-#scores = read.csv("~/Projects/Crocodeal/Crocodeal/scores.csv", header=TRUE)
-source("my_read_scores.r")
+scores = read.csv("~/HELL/Crocodeal/Beer/scores.csv", header=TRUE)
 
 scores$X = NULL
 
@@ -265,7 +262,7 @@ server <- function(input, output, session) {
     bestRecommendations()
   })
   
-  
+
   observeEvent(
     input$button2, {
       
@@ -274,7 +271,7 @@ server <- function(input, output, session) {
       
       newtab <- switch(input$tabs, "beer" = "widgets", "widgets" = "beer")
       updateTabItems(session, "tabs", newtab)
-      
+
       # newtab <- switch(input$tabs,
       #                  "widgets" = "beer",
       #                  "beer" = "widgets"
