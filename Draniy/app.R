@@ -73,17 +73,10 @@ print(scores[1,])
 #   reslt<-unique(as.character(BeerTable$beer_style[c(sample(1:(N/3), 2), sample(round(N/3+1):(2*N/3), 2),sample(round(2*N/3):N, 2))]))
 # }
 
-# uniqBeer <- as.data.frame(unique(scores$beer_style))
-# uniqDesc <- as.data.frame(unique(scores$description))
-# uniq <- cbind(uniqBeer, uniqDesc)
-# names(uniq) = c("beer_style", "description")
-# 
-# chouse6fromN <<- function(N = 100, BeerTable = uniq){
-#   
-#   reslt <- as.character(BeerTable$beer_style[c(sample(1:N, 6))])
-# }
-# 
-# chosenBeersList <<- chouse6fromN(length(uniq$beer_style), uniq)
+uniqBeer <- as.data.frame(unique(scores$beer_style))
+uniqDesc <- as.data.frame(unique(scores$description))
+uniq <- cbind(uniqBeer, uniqDesc)
+names(uniq) = c("beer_style", "description")
 
 chouse6fromN <<- function(N = 92, BeerTable = scores){
   
@@ -149,37 +142,37 @@ ui <- dashboardPage(
                          title = "Оцените предложенный стиль пива",
                          width = 0.9,
                          sliderInput("slider2", chosenBeersList[1], 1, 5, 3),
-                         ""
+                         filter(uniq, beer_style == chosenBeersList[1])[2]
                        ),
                        box(
                          title = "Оцените предложенный стиль пива",
                          width = 0.9,
                          sliderInput("slider3", chosenBeersList[2], 1, 5, 3),
-                         "ОПИСАНИЕ ПИВА"
+                         filter(uniq, beer_style == chosenBeersList[2])[2]
                        ),
                        box(
                          title = "Оцените предложенный стиль пива",
                          width = 0.9,
                          sliderInput("slider4", chosenBeersList[3], 1, 5, 3),
-                         "ОПИСАНИЕ ПИВА"
+                         filter(uniq, beer_style == chosenBeersList[3])[2]
                        ),
                        box(
                          title = "Оцените предложенный стиль пива",
                          width = 0.9,
                          sliderInput("slider5", chosenBeersList[4], 1, 5, 3),
-                         "ОПИСАНИЕ ПИВА"
+                         filter(uniq, beer_style == chosenBeersList[4])[2]
                        ),
                        box(
                          title = "Оцените предложенный стиль пива",
                          width = 0.9,
                          sliderInput("slider6", chosenBeersList[5], 1, 5, 3),
-                         "ОПИСАНИЕ ПИВА"
+                         filter(uniq, beer_style == chosenBeersList[5])[2]
                        ),
                        box(
                          title = "Оцените предложенный стиль пива",
                          width = 0.9,
                          sliderInput("slider7", chosenBeersList[6], 1, 5, 3),
-                         "ОПИСАНИЕ ПИВА"
+                         filter(uniq, beer_style == chosenBeersList[6])[2]
                        ),
                        actionButton("button2", "Далее")
                 )
