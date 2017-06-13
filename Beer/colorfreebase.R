@@ -22,3 +22,13 @@ small<-as.data.frame(unique(descbeer$beer_style))
 colnames(small) <- "beer_style"
 bs<-left_join(big,small, by = "beer_style")
 write.csv(descfin, file = "description.csv")
+
+descr<-description
+descr<-select(descr, -X1)
+
+ber<-left_join(berrev, descr, by = "beer_style")
+
+saveRDS(ber, "Databeer.rda")
+
+ber2<-na.omit(ber)
+beertest = sparseMatrix(as.integer(ber2$review_profilename), as.integer(ber2$beer_style), x = ber2$review_overall)
