@@ -53,7 +53,16 @@ recommend <- function(scoresArg) {
 }
 
 # залили датасет
-scores = readRDS("~/HELL/Crocodeal/Databeer.rda")
+scores = readRDS("~/HELL/Crocodeal/Draniy/Databeer.rda")
+zacuson = read_delim("~/HELL/Crocodeal/Draniy/zacus.csv", ";", escape_double = FALSE, trim_ws = TRUE)
+rownames(zacuson) <- zacuson$X1
+zacuson <- tidyr::gather(zacuson, "beer_style", "score", 2:90)
+names(zacuson) = c("zacus", "beer_style", "score")
+
+#MAPS
+cities_profiles = read.csv("~/HELL/Heaven/cities_profiles.csv")
+users_profiles = read.csv2("~/HELL/Heaven/users_profiles.csv")
+#MAPS
 
 # задали дефолтного пользователя
 userId = "YOU"
@@ -65,6 +74,7 @@ scores = na.omit(scores)
 scores$review_overall = as.numeric(scores$review_overall)
 scores$review_profilename = as.factor(scores$review_profilename)
 scores$beer_style = as.factor(scores$beer_style)
+pal = brewer.pal(9,"BuPu")
 
 updatedScores <- scores
 
@@ -91,10 +101,6 @@ chosenBeersList <<- chouse6fromN(length(scores$beer_style), scores)
 library(shinydashboard)
 library(shiny)
 
-## Сайт, где мы брали информацию и туториалы
-# https://rstudio.github.io/shinydashboard/structure.html
-# http://deanattali.com/blog/building-shiny-apps-tutorial/
-
 ui <- dashboardPage(
   
   dashboardHeader(title = "Думаешь, ты пробовал все? Тогда тебе к нам...", titleWidth = 1580),
@@ -103,9 +109,10 @@ ui <- dashboardPage(
   dashboardSidebar(width = 280,
                    sidebarMenu(
                      id = "tabs",
-                     menuItem("Параметры напитка", tabName = "dashboard", icon = icon("dashboard")),
-                     menuItem("Оценка различных видов пива", tabName = "widgets", icon = icon("th")),
-                     menuItem("Три предложения", tabName = "beer", icon = icon("th"))
+                     menuItem("Параметры напитка", tabName = "dashboard", icon = icon("list-ol")),
+                     menuItem("Оценка различных видов пива", tabName = "widgets", icon = icon("check-square-o")),
+                     menuItem("Три предложения", tabName = "beer", icon = icon("beer")),
+                     menuItem("В добрый путь!", tabName = "nameM", icon = icon("thumbs-up"))
                    )
   ),
   
@@ -188,10 +195,31 @@ ui <- dashboardPage(
                   tableOutput("recommendedBeer")
                 )
               )
+      ),
+      #Forth tab
+      tabItem(tabName = "nameM", 
+              dashboardSidebar(
+                dashboardBody(
+                  fluidPage(
+                    fluidRow(
+                      column(width = 12,
+                             infoBox("Number of mirgants", nrow(users_profiles), icon = icon("fa fa-users"), color = "blue", width = 5),
+                             infoBox("Number of cities to migrate", length(unique(users_profiles$city)), icon = icon("fa fa-globe"), color = "green", width = 6)
+                      )
+                    ),
+                    fluidRow(
+                      leafletOutput("map", width = 1000)
+                    ), 
+                    fluidRow(
+                      actionButton("button3", "Начать заново")
+                  )
+              )
+                )
+              )
       )
     )
-)
   )
+)
 
 
 
@@ -284,6 +312,19 @@ server <- function(input, output, session) {
       updateTabItems(session, "tabs", newtab)
     }
   )
+  observeEvent(
+    input$button3, {
+      newtab <- switch(input$tabs, "dashboard" = "nameM", "nameM" = "dashboard")
+      updateTabItems(session, "tabs", newtab)
+    }
+  )
+  output$map <- renderLeaflet({ 
+    leaflet(cities_profiles, width = ) %>% 
+      addTiles() %>%
+      fitBounds(~min(lon), ~min(lat), ~max(lon), ~max(lat))  %>%
+      addCircles(lng = ~lon, lat = ~lat, radius = ((cities_profiles$count_norm + 2)^11), weight = 1,
+                 fillColor = ~(cities_profiles$count_norm), fillOpacity = 0.7, popup = ~paste(name)) 
+  })
 }
 
 
