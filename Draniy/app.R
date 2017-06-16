@@ -4,33 +4,58 @@ library(dplyr)
 library(recommenderlab)
 library(reshape2)
 library(ggplot2)
+library(RColorBrewer)
+library(leaflet)
+library(readr)
 
-recommend <- function(scoresArg) {
+recommend <- function(scoresInput, complements) {
   
-  message("scores colnames", colnames(scoresArg))
+  message("compl " , complements)
+  
+  scoresArg <- cbind(scoresInput)
   
   # отбросили пропуски
   scoresArg = na.omit(scoresArg)
   
   # конвертируем колонки -- приводим к нужному типу
+  message("beeerstylenames " , unique(scoresArg$beer_style))
+  beerStyleNames <- as.character(scoresArg$beer_style)
+  message("beeerstylenames2 " ,  unique(beerStyleNames))
+  
   scoresArg$review_overall = as.numeric(scoresArg$review_overall)
   scoresArg$review_profilename = as.factor(scoresArg$review_profilename)
-  scoresArg$beer_style = as.factor(scoresArg$beer_style)
+  beerStyleInteger <- match(scoresArg$beer_style, unique(scoresArg$beer_style)) 
   
   lasUserId <- length(unique(scoresArg$review_profilename)) + 1
   
-  message("lasrUserId", lasUserId)
+  styles_nums <- data.frame(
+    beerStyleNames,
+    beerStyleInteger,
+    fix.empty.names = FALSE,
+    stringsAsFactors=FALSE
+  )
+  
+  # message("\n\nstyles_nums " , styles_nums)
+  
+  colnames(styles_nums) <- c("beer_style", "beer_style_int")
+  styles_nums <- unique(styles_nums[c("beer_style", "beer_style_int")])
+  
+  # message("styles_nums_unique " , styles_nums)
   
   # строим разреженную матрицу на основе зачитанных оценок
-  scores2 = sparseMatrix(as.integer(scoresArg$review_profilename), as.integer(scoresArg$beer_style), x = scoresArg$review_overall)
+  scores2 = sparseMatrix(as.integer(scoresArg$review_profilename), 
+                         beerStyleInteger, 
+                         x = scoresArg$review_overall)
+  
+  # message("scores matrix ", scores2)
   
   rev <- as(scores2, "realRatingMatrix")
   
   # ищем ближайших пользователей
   similarity_users50 <- similarity(rev[1:50, ], method = "cosine", which = "users")
   ratings_beers <- rev[rowCounts(rev) > 1,  colCounts(rev) > 2] 
+
   # ratings_beers
-  
   average_ratings_per_user <- rowMeans(ratings_beers)
   set.seed(100)
   
@@ -39,29 +64,47 @@ recommend <- function(scoresArg) {
   recc_data_test <- ratings_beers[test_ind, ]
   
   recc_model <- Recommender(data = recc_data_train, method = "IBCF",  parameter = list(k = 30))
-  # recc_model
   
   recc_predicted <- predict(object = recc_model, newdata = recc_data_test, n = 3)
-  # recc_predicted
+  
+  message("Recommended items ", recc_predicted@items)
   
   recc_user_1 <- recc_predicted@items[[2]]
-  # recc_user_1
   
-  message(recc_user_1)
+  message("Styles recommended to user: ", recc_user_1)
   
-  recc_user_1
+  # todo: add complements
+  # df <- scoresArg[match(recc_user_1, as.integer(scoresArg$beer_style))]
+  # message("df ", df)
+  
+  recc_df = data.frame(
+    as.integer(recc_user_1),
+    fix.empty.names = FALSE
+  )
+  
+  colnames(recc_df) <- c("recommended_style")
+  
+  # merging with beer style names
+  recc <- merge(recc_df, styles_nums, by.x="recommended_style", by.y="beer_style_int", all.x=TRUE)
+  
+  # merging with zacousquea
+  recc2 <- merge(recc, complements, by.x="beer_style", by.y="beer_style", all.x=TRUE)
+  
+  recc2  %>% select(beer_style, zacus)
 }
 
 # залили датасет
 scores = readRDS("~/HELL/Crocodeal/Draniy/Databeer.rda")
-zacuson = read_delim("~/HELL/Crocodeal/Draniy/zacus.csv", ";", escape_double = FALSE, trim_ws = TRUE)
-rownames(zacuson) <- zacuson$X1
-zacuson <- tidyr::gather(zacuson, "beer_style", "score", 2:90)
-names(zacuson) = c("zacus", "beer_style", "score")
+zacuson = read.csv("~/HELL/Crocodeal/Draniy/zacuski.csv", header = TRUE)
+# rownames(zacuson) <- zacuson$X1
+# zacuson <- tidyr::gather(zacuson, "beer_style", "score", 2:90)
+# names(zacuson) = c("zacus", "beer_style", "score")
 
 #MAPS
 cities_profiles = read.csv("~/HELL/Heaven/cities_profiles.csv")
 users_profiles = read.csv2("~/HELL/Heaven/users_profiles.csv")
+rosals = read.csv("~/HELL/Crocodeal/Draniy/rosals.csv")
+
 #MAPS
 
 # задали дефолтного пользователя
@@ -74,7 +117,7 @@ scores = na.omit(scores)
 scores$review_overall = as.numeric(scores$review_overall)
 scores$review_profilename = as.factor(scores$review_profilename)
 scores$beer_style = as.factor(scores$beer_style)
-pal = brewer.pal(9,"BuPu")
+# pal = brewer.pal(9,"BuPu")
 
 updatedScores <- scores
 
@@ -91,9 +134,12 @@ uniq <- cbind(uniqBeer, uniqDesc)
 names(uniq) = c("beer_style", "description")
 
 chouse6fromN <<- function(N = 92, BeerTable = scores){
-  
+  #message("SETTING RESLT")
   reslt <- as.character(BeerTable$beer_style[c(sample(1:unique(N), 6))])
+  #message("RESLT ", reslt)
 }
+
+#message("RESLT OUTER ", reslt)
 
 chosenBeersList <<- chouse6fromN(length(scores$beer_style), scores)
 
@@ -202,12 +248,6 @@ ui <- dashboardPage(
                 dashboardBody(
                   fluidPage(
                     fluidRow(
-                      column(width = 12,
-                             infoBox("Number of mirgants", nrow(users_profiles), icon = icon("fa fa-users"), color = "blue", width = 5),
-                             infoBox("Number of cities to migrate", length(unique(users_profiles$city)), icon = icon("fa fa-globe"), color = "green", width = 6)
-                      )
-                    ),
-                    fluidRow(
                       leafletOutput("map", width = 1000)
                     ), 
                     fluidRow(
@@ -232,7 +272,6 @@ server <- function(input, output, session) {
     newscores <- scores[scores$beer_abv>input$slider[1]&scores$beer_abv<input$slider[2],]
     newscores
   })
-  
   # Show the values using an HTML table
   output$scores <- renderTable({
     scoresValues()
@@ -245,8 +284,8 @@ server <- function(input, output, session) {
     # review_overall review_profilename beer_style beer_name beer_abv beer_beerid beer_color description
     oldScores <- scoresValues()
     
-    message("Len of old ", nrow(oldScores))
-    message("Head of old ", oldScores[1,])
+    # message("Len of old ", nrow(oldScores))
+    # message("Head of old ", oldScores[1,])
     
     # формируем датафрейм из пользовательских оценок разному пиву со страницы
     beersRatings <- 
@@ -254,7 +293,7 @@ server <- function(input, output, session) {
         # review_profilename
         c(userId, userId, userId, userId, userId, userId),
         # beer_style
-        reslt,
+        chosenBeersList,
         # review_overall
         c(input$slider2[1], input$slider3[1], input$slider4[1], 
           input$slider5[1], input$slider6[1], input$slider7[1]),
@@ -267,26 +306,21 @@ server <- function(input, output, session) {
       )
     
     
-    message("inputcolor ", input$color[1])
+    # message("inputcolor ", input$color[1])
     #  message("beersRatings ", beersRatings)
     #  message("oldScores ", colnames(oldScores))
     #  message("beersRatings ", colnames(beersRatings))
     
     oldScoresProjection <- oldScores %>% select(review_profilename, beer_style, review_overall, beer_abv, beer_color)
     
-    message("inputcolor for filtering ", input$color[1])
-    # removing unchosen color
-    # irisSubset <- iris[grep("osa", iris$Species), ]
     # https://stackoverflow.com/questions/13043928/selecting-rows-where-a-column-has-a-string-like-hsa-partial-string-match
     oldScoresProjection <- oldScoresProjection[grep(input$color[1], oldScoresProjection$beer_color), ]
-    
-    # message("oldProjection", colnames(oldScoresProjection))
     
     colnames(beersRatings) <- colnames(oldScoresProjection)
     
     updatedScores <- rbind(oldScoresProjection, beersRatings)
     # n <- nrow(updatedScores)
-    recommended <- recommend(updatedScores)
+    recommended <- recommend(updatedScores, zacuson)
     print(recommended)
     recommended
   })
@@ -299,8 +333,8 @@ server <- function(input, output, session) {
   observeEvent(
     input$button2, {
       
-      print(bestRecommendations())      
-      message(bestRecommendations())
+      # print(bestRecommendations())      
+      # message(bestRecommendations())
       
       newtab <- switch(input$tabs, "beer" = "widgets", "widgets" = "beer")
       updateTabItems(session, "tabs", newtab)
@@ -319,11 +353,12 @@ server <- function(input, output, session) {
     }
   )
   output$map <- renderLeaflet({ 
-    leaflet(cities_profiles, width = ) %>% 
+    #todo: rosals
+    leaflet(rosals, width = ) %>% 
       addTiles() %>%
       fitBounds(~min(lon), ~min(lat), ~max(lon), ~max(lat))  %>%
-      addCircles(lng = ~lon, lat = ~lat, radius = ((cities_profiles$count_norm + 2)^11), weight = 1,
-                 fillColor = ~(cities_profiles$count_norm), fillOpacity = 0.7, popup = ~paste(name)) 
+      addCircles(lng = ~lon, lat = ~lat, radius = 50, weight = 15,
+                 fillColor = 1, fillOpacity = 0.7, popup = ~paste(Pivov)) 
   })
 }
 
