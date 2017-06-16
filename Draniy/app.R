@@ -5,22 +5,24 @@ library(recommenderlab)
 library(reshape2)
 library(ggplot2)
 
-recommend <- function(scores) {
+recommend <- function(scoresArg) {
+  
+  message("scores colnames", colnames(scoresArg))
   
   # отбросили пропуски
-  scores = na.omit(scores)
+  scoresArg = na.omit(scoresArg)
   
   # конвертируем колонки -- приводим к нужному типу
-  scores$review_overall = as.numeric(scores$review_overall)
-  scores$review_profilename = as.factor(scores$review_profilename)
-  scores$beer_style = as.factor(scores$beer_style)
+  scoresArg$review_overall = as.numeric(scoresArg$review_overall)
+  scoresArg$review_profilename = as.factor(scoresArg$review_profilename)
+  scoresArg$beer_style = as.factor(scoresArg$beer_style)
   
-  lasUserId <- length(unique(scores$review_profilename)) + 1
+  lasUserId <- length(unique(scoresArg$review_profilename)) + 1
   
   message("lasrUserId", lasUserId)
   
   # строим разреженную матрицу на основе зачитанных оценок
-  scores2 = sparseMatrix(as.integer(scores$review_profilename), as.integer(scores$beer_style), x = scores$review_overall)
+  scores2 = sparseMatrix(as.integer(scoresArg$review_profilename), as.integer(scoresArg$beer_style), x = scoresArg$review_overall)
   
   rev <- as(scores2, "realRatingMatrix")
   
@@ -95,16 +97,16 @@ library(shiny)
 
 ui <- dashboardPage(
   
-  dashboardHeader(title = "Думаешь, ты пробовал все? Тогда тебе к нам..."),
+  dashboardHeader(title = "Думаешь, ты пробовал все? Тогда тебе к нам...", titleWidth = 1580),
   
   ## Sidebar content
-  dashboardSidebar(
-    sidebarMenu(
-      id = "tabs",
-      menuItem("Параметры напитка", tabName = "dashboard", icon = icon("dashboard")),
-      menuItem("Оценка различных видов пива", tabName = "widgets", icon = icon("th")),
-      menuItem("Три предложения", tabName = "beer", icon = icon("th"))
-    )
+  dashboardSidebar(width = 280,
+                   sidebarMenu(
+                     id = "tabs",
+                     menuItem("Параметры напитка", tabName = "dashboard", icon = icon("dashboard")),
+                     menuItem("Оценка различных видов пива", tabName = "widgets", icon = icon("th")),
+                     menuItem("Три предложения", tabName = "beer", icon = icon("th"))
+                   )
   ),
   
   ## Body content
@@ -140,37 +142,37 @@ ui <- dashboardPage(
                 column(width = 7,
                        box(
                          title = "Оцените предложенный стиль пива",
-                         width = 0.9,
+                         width = 0.5,
                          sliderInput("slider2", chosenBeersList[1], 1, 5, 3),
                          filter(uniq, beer_style == chosenBeersList[1])[2]
                        ),
                        box(
                          title = "Оцените предложенный стиль пива",
-                         width = 0.9,
+                         width = 0.5,
                          sliderInput("slider3", chosenBeersList[2], 1, 5, 3),
                          filter(uniq, beer_style == chosenBeersList[2])[2]
                        ),
                        box(
                          title = "Оцените предложенный стиль пива",
-                         width = 0.9,
+                         width = 0.5,
                          sliderInput("slider4", chosenBeersList[3], 1, 5, 3),
                          filter(uniq, beer_style == chosenBeersList[3])[2]
                        ),
                        box(
                          title = "Оцените предложенный стиль пива",
-                         width = 0.9,
+                         width = 0.5,
                          sliderInput("slider5", chosenBeersList[4], 1, 5, 3),
                          filter(uniq, beer_style == chosenBeersList[4])[2]
                        ),
                        box(
                          title = "Оцените предложенный стиль пива",
-                         width = 0.9,
+                         width = 0.5,
                          sliderInput("slider6", chosenBeersList[5], 1, 5, 3),
                          filter(uniq, beer_style == chosenBeersList[5])[2]
                        ),
                        box(
                          title = "Оцените предложенный стиль пива",
-                         width = 0.9,
+                         width = 0.5,
                          sliderInput("slider7", chosenBeersList[6], 1, 5, 3),
                          filter(uniq, beer_style == chosenBeersList[6])[2]
                        ),
@@ -199,7 +201,7 @@ server <- function(input, output, session) {
   
   # Reactive expression to compose a data frame containing filtered values
   scoresValues <- reactive({
-    newscores <- scores[scores$avg2>input$slider[1]&scores$avg2<input$slider[2],]
+    newscores <- scores[scores$beer_abv>input$slider[1]&scores$beer_abv<input$slider[2],]
     newscores
   })
   
@@ -212,6 +214,7 @@ server <- function(input, output, session) {
     
     print("Running beer recommendations...")
     
+    # review_overall review_profilename beer_style beer_name beer_abv beer_beerid beer_color description
     oldScores <- scoresValues()
     
     message("Len of old ", nrow(oldScores))
@@ -220,16 +223,40 @@ server <- function(input, output, session) {
     # формируем датафрейм из пользовательских оценок разному пиву со страницы
     beersRatings <- 
       data.frame(
+        # review_profilename
         c(userId, userId, userId, userId, userId, userId),
+        # beer_style
         reslt,
+        # review_overall
         c(input$slider2[1], input$slider3[1], input$slider4[1], 
           input$slider5[1], input$slider6[1], input$slider7[1]),
+        # beer_abv
         c(0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
+        # beer_color
+        c(input$color[1],input$color[1],input$color[1],
+          input$color[1],input$color[1],input$color[1]),
         fix.empty.names = FALSE
       )
     
-    colnames(beersRatings) <- colnames(oldScores)
-    updatedScores <- rbind(oldScores, beersRatings)
+    
+    message("inputcolor ", input$color[1])
+    #  message("beersRatings ", beersRatings)
+    #  message("oldScores ", colnames(oldScores))
+    #  message("beersRatings ", colnames(beersRatings))
+    
+    oldScoresProjection <- oldScores %>% select(review_profilename, beer_style, review_overall, beer_abv, beer_color)
+    
+    message("inputcolor for filtering ", input$color[1])
+    # removing unchosen color
+    # irisSubset <- iris[grep("osa", iris$Species), ]
+    # https://stackoverflow.com/questions/13043928/selecting-rows-where-a-column-has-a-string-like-hsa-partial-string-match
+    oldScoresProjection <- oldScoresProjection[grep(input$color[1], oldScoresProjection$beer_color), ]
+    
+    # message("oldProjection", colnames(oldScoresProjection))
+    
+    colnames(beersRatings) <- colnames(oldScoresProjection)
+    
+    updatedScores <- rbind(oldScoresProjection, beersRatings)
     # n <- nrow(updatedScores)
     recommended <- recommend(updatedScores)
     print(recommended)
@@ -261,4 +288,6 @@ server <- function(input, output, session) {
 
 
 shinyApp(ui, server)
+
+
 
