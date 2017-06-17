@@ -94,16 +94,14 @@ recommend <- function(scoresInput, complements) {
 }
 
 # залили датасет
-scores = readRDS("~/HELL/Crocodeal/Draniy/Databeer.rda")
-zacuson = read.csv("~/HELL/Crocodeal/Draniy/zacuski.csv", header = TRUE)
+scores = readRDS("Databeer.rda")
+zacuson = read.csv("zacuski.csv", header = TRUE)
 # rownames(zacuson) <- zacuson$X1
 # zacuson <- tidyr::gather(zacuson, "beer_style", "score", 2:90)
 # names(zacuson) = c("zacus", "beer_style", "score")
 
 #MAPS
-cities_profiles = read.csv("~/HELL/Heaven/cities_profiles.csv")
-users_profiles = read.csv2("~/HELL/Heaven/users_profiles.csv")
-rosals = read.csv("~/HELL/Crocodeal/Draniy/rosals.csv")
+rosals = read.csv("rosals.csv")
 
 #MAPS
 
@@ -133,7 +131,7 @@ uniqDesc <- as.data.frame(unique(scores$description))
 uniq <- cbind(uniqBeer, uniqDesc)
 names(uniq) = c("beer_style", "description")
 
-chouse6fromN <<- function(N = 92, BeerTable = scores){
+chouse6fromN <<- function(N = 89, BeerTable = scores){
   #message("SETTING RESLT")
   reslt <- as.character(BeerTable$beer_style[c(sample(1:unique(N), 6))])
   #message("RESLT ", reslt)
@@ -172,7 +170,7 @@ ui <- dashboardPage(
                        box(
                          title = "Определите крепость желаемого напитка",
                          width = 0.25,
-                         sliderInput("slider", "градусы:", value = c(0.25, 14.75), min = 0.25, max = 14.75),
+                         sliderInput("slider", "градусы:", value = c(0.25, 57.70), min = 0.25, max = 57.70),
                          "Как известно, все алкогольные напитки различаются по градусам. Если для вас важна крепость пива, 
                          вы можете выбрать её двигая слайдеры, если же этот параметр для вас не важен - переместите слайдеры на минимальное и максимальное значение"
                        ),
